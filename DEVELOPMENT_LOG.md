@@ -134,7 +134,8 @@
 ---
 
 ## 🚀 다음 단계
-- [ ] Entity 설계 및 JPA 매핑
+- [x] Entity 설계 및 JPA 매핑
+- [x] SQL 쿼리 설계
 - [ ] Repository 계층 구현
 - [ ] QueryDSL 복잡 쿼리 작성
 - [ ] Service 비즈니스 로직 구현

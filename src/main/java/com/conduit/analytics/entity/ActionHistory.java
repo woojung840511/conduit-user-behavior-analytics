@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "action_history")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ActionHistory {
+public class ActionHistory { // 사용자 행동 기록 테이블
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +22,10 @@ public class ActionHistory {
     private Long userId;
 
     @Column(name = "action_type", nullable = false, length = 50)
-    private String actionType;
+    private String actionType; // 예: VIEW, CLICK, VOTE 등
 
     @Column(name = "action_target", length = 100)
-    private String actionTarget;
+    private String actionTarget; // 예: vote, product_123 등
 
     @Column(name = "action_count", nullable = false)
     private Integer actionCount;
@@ -34,7 +34,7 @@ public class ActionHistory {
     private Double actionValue;
 
     @Column(name = "action_time", nullable = false)
-    private LocalDateTime actionTime;
+    private LocalDateTime actionTime;   // UTC 기준
 
     @Builder
     public ActionHistory(Long userId, String actionType, String actionTarget,
