@@ -9,7 +9,7 @@ public class WeeklyStatDto {
 
     private Integer dayOfWeek;      // 1 (월요일) ~ 7 (일요일)
     private String actionType;      // VIEW, CLICK, VOTE 등
-    private Long totalActionCount;  // 해당 요일의 총 행동 횟수
+    private Integer totalActionCount;  // 해당 요일의 총 행동 횟수
     private Long uniqueUserCount;   // 해당 요일에 행동한 고유 사용자 수
 
     public String getDayOfWeekName() {

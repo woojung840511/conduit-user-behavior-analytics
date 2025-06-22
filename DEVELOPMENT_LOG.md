@@ -138,6 +138,6 @@
 - [x] SQL 쿼리 설계
 - [x] Repository 계층 구현
 - [x] QueryDSL 복잡 쿼리 작성
-- [ ] Service 비즈니스 로직 구현
-- [ ] Controller API 엔드포인트 구현
+- [x] Service 비즈니스 로직 구현
+- [x] Controller API 엔드포인트 구현
 - [ ] 테스트 데이터 및 단위 테스트 작성
