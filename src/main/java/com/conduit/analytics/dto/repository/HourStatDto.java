@@ -1,7 +1,6 @@
 package com.conduit.analytics.dto.repository;
 
 import com.conduit.analytics.enums.TimePeriod;
-import java.sql.Time;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
