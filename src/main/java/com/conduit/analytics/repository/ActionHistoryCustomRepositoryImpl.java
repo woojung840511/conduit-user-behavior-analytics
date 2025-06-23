@@ -8,8 +8,8 @@ import com.conduit.analytics.entity.QUserLastAction;
 import com.conduit.analytics.enums.TimePeriod;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.core.types.dsl.EnumExpression;
 import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -47,24 +47,28 @@ public class ActionHistoryCustomRepositoryImpl implements ActionHistoryCustomRep
         QActionHistory ah = QActionHistory.actionHistory;
 
         NumberExpression<Integer> hour = ah.actionTime.hour();
-        EnumExpression<TimePeriod> timePeriodEnumExpression = new CaseBuilder()
-            .when(hour.between(TimePeriod.DAWN.getStartHour(), TimePeriod.DAWN.getEndHour())).then(TimePeriod.DAWN)
-            .when(hour.between(TimePeriod.MORNING.getStartHour(), TimePeriod.MORNING.getEndHour())).then(TimePeriod.MORNING)
-            .when(hour.between(TimePeriod.AFTERNOON.getStartHour(), TimePeriod.AFTERNOON.getEndHour())).then(TimePeriod.AFTERNOON)
-            .otherwise(TimePeriod.NIGHT);
+
+        StringExpression timePeriodExpression = new CaseBuilder()
+            .when(hour.between(TimePeriod.DAWN.getStartHour(), TimePeriod.DAWN.getEndHour()))
+            .then(TimePeriod.DAWN.getDisplayName())
+            .when(hour.between(TimePeriod.MORNING.getStartHour(), TimePeriod.MORNING.getEndHour()))
+            .then(TimePeriod.MORNING.getDisplayName())
+            .when(hour.between(TimePeriod.AFTERNOON.getStartHour(), TimePeriod.AFTERNOON.getEndHour()))
+            .then(TimePeriod.AFTERNOON.getDisplayName())
+            .otherwise(TimePeriod.NIGHT.getDisplayName());
 
         return queryFactory
             .select(
                 Projections.constructor(HourStatDto.class,
-                    timePeriodEnumExpression,
+                    timePeriodExpression,
                     ah.actionType,
                     ah.actionCount.sum(),
                     ah.userId.countDistinct()
                 ))
             .from(ah)
             .where(ah.actionTime.between(from, to))
-            .groupBy(timePeriodEnumExpression, ah.actionType)
-            .orderBy(timePeriodEnumExpression.asc(), ah.actionType.asc())
+            .groupBy(timePeriodExpression, ah.actionType)
+//            .orderBy(timePeriodExpression.asc(), ah.actionType.asc())
             .fetch();
     }
 
@@ -78,7 +82,7 @@ public class ActionHistoryCustomRepositoryImpl implements ActionHistoryCustomRep
             .from(ah)
             .join(la).on(ah.userId.eq(la.userId))
             .where(
-                ah.actionType.eq("vote"),
+                ah.actionType.eq("VOTE"), // 투표한 사용자
                 ah.actionTime.goe(LocalDateTime.now().minusMonths(6)),   // 최근 6개월 이내 투표한 사용자
                 la.lastActionTime.goe(LocalDateTime.now().minusMonths(3)) // 최근 3개월 이내 활동한 사용자
             )

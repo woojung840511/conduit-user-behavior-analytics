@@ -188,7 +188,7 @@ public class UserBehaviorAnalyticsService {
         Map<String, Map<String, StatisticsDto>> result = new LinkedHashMap<>();
 
         for (HourStatDto stat : stats) {
-            String timePeriod = stat.getTimePeriod().getDisplayName();
+            String timePeriod = stat.getTimePeriod();
 
             result.computeIfAbsent(timePeriod, k -> new LinkedHashMap<>())
                 .put(stat.getActionType(),
