@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "action_history")
+@Table(name = "action_history", indexes = {
+    @Index(name = "idx_action_time", columnList = "action_time"),
+    @Index(name = "idx_actiontype_time_userid", columnList = "action_type, action_time, user_id")
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ActionHistory { // 사용자 행동 기록 테이블

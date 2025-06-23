@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_last_action")
+@Table(name = "user_last_action", indexes = {
+    @Index(name = "idx_last_action_time", columnList = "last_action_time")
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserLastAction {
